@@ -25,12 +25,17 @@ def i3_subscribe(conn, event, callback):
 		Function to run on event.
 	'''
 	try:
-		import i3
+		import i3ipc
 	except ImportError:
-		pass
+		try:
+			import i3
+		except ImportError:
+			pass
+		else:
+			conn.Subscription(callback, event)
+			return
 	else:
-		conn.Subscription(callback, event)
-		return
+		pass
 
 	conn.on(event, callback)
 
